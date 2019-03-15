@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classes from './App.module.css';
-import Person from './Person/Person';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 
 class App extends Component {
@@ -42,40 +43,19 @@ class App extends Component {
   render() {
 
     let persons = null;
-    let btnClass = null;
-
     if (this.state.showPersons) {
-      persons = (
-        <div>
-          {this.state.persons.map((person, index) => {
-            return (
-              <Person
-                key={index}
-                name={person.name}
-                age={person.age}
-                click={() => this.deletePersonHandler(index)}
-                changed={(event) => this.nameChangedHandler(event, index)} />
-            )
-          })}
-        </div>
-      );
-      btnClass = classes.Red;
+      persons = <Persons persons={this.state.persons}
+                          clicked={this.deletePersonHandler}
+                          changed={this.nameChangedHandler} />
     }
 
-    const assignedClasses = [];
-    if(this.state.persons.length <= 2) {
-      assignedClasses.push(classes.red);
-    }
-    if(this.state.persons.length <= 1) {
-      assignedClasses.push(classes.bold);
-    }
+
 
     return (
       <div className={classes.App}>
-        <p className={assignedClasses.join(' ')}>Some random text</p>
-        <button
-          className={btnClass}
-          onClick={this.togglePersonsHandler}>Toggle persons</button>
+          <Cockpit persons={this.state.persons}
+                    showPersons={this.state.showPersons}
+                    clicked={this.togglePersonsHandler} />
           {persons}
       </div>
     );
